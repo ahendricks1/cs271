@@ -13,8 +13,19 @@
 
 CHIP PC {
     IN in[16],load,inc,reset;
-    OUT out[16];
+    OUT out[16];    
 
     PARTS:
-    // Put your code here:
+    //Increment
+    Inc16(in=feedback, out=incout);
+    Mux16(a=in, b=incout, sel=inc, out=loadin);
+
+    //Load
+    Mux16(a=loadin, b=in, sel=load, out=resetin);
+
+    //Reset
+    Mux16(a=resetin, b=false, sel=reset, out=registerin);
+
+    //Register
+    Register(in=registerin, load=true, out=feedback, out=out);
 }
