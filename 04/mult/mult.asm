@@ -6,4 +6,38 @@
 // Multiplies R0 and R1 and stores the result in R2.
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
-// Put your code here.
+//Initialize R0
+@R0
+D=M
+
+//Initialize R1/counter
+@R1
+D=M
+@counter
+M=D
+
+//Initialize R2
+@R2
+M=0
+
+//Decrement valB, if it equals zero, goto END
+(LOOP)
+@counter
+D=M
+@END
+D;JEQ
+@counter
+M=D-1
+
+//Increment R2
+@R0
+D=M
+@R2
+M=D+M
+@LOOP
+0;JMP
+
+//Finish
+(END)
+@END
+0;JMP
