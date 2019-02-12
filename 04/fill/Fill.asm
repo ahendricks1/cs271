@@ -11,4 +11,50 @@
 // "white" in every pixel;
 // the screen should remain fully clear as long as no key is pressed.
 
-// Put your code here.
+//Creating current location variable
+(RESTART)
+@SCREEN
+D=A
+@currentloc
+M=D
+
+//Check if keyboard is being pressed, if so, goto IFTRUE. Otherwise goto ELSE.
+(START)
+@KBD
+D=M
+@IFTRUE
+D;JGT
+@ELSE
+0;JMP
+
+//Key is being pressed, color pixels black
+(IFTRUE)
+@currentloc
+A=M
+M=-1
+@INCREMENT
+0;JMP
+
+//Else color pixels white
+(ELSE)
+@currentloc
+A=M
+M=0
+@INCREMENT
+0;JMP
+
+//Incrememnt the current location
+(INCREMENT)
+@currentloc
+M=M+1
+
+//Test if we are at KBD address, restart painting
+(TEST)
+@KBD
+D=A
+@currentloc
+D=D-M
+@RESTART
+D;JEQ
+@START
+0;JMP

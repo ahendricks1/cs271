@@ -18,7 +18,7 @@ M=D
 
 //Initialize R2
 @R2
-M=0
+M=0 
 
 //Decrement valB, if it equals zero, goto END
 (LOOP)
