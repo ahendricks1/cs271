@@ -56,7 +56,7 @@ CHIP CPU {
     And(a=instruction[15], b=instruction[4], out=dRegisterIn);
     DRegister(in=aluFeedback, load=dRegisterIn, out=dRegisterOut);
 
-    //ALU (Unfinished)
+    //ALU
     ALU(x=dRegisterOut, y=amChoice, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7],
     no=instruction[6], out=outM, out=aluFeedback, ng=isNegative, zr=isZero);
 
@@ -69,16 +69,14 @@ CHIP CPU {
     Or(a=isNegative, b=isZero, out=isNegOrZero);
     Not(in=isNegOrZero, out=isNotNegOrZero);
     
-    // is C instruction and meets condition
-    And(a=instruction[15], b=isZero, out=jeqJump);
-    And(a=instruction[15], b=isNegative, out=jltJump);
-    And(a=instruction[15], b=isNotNegOrZero, out=jgtJump);
+    //Is a C instruction and meets condition
+    And(a=instruction[1], b=isZero, out=jmp1);
+    And(a=instruction[0], b=isNotNegOrZero, out=jmp2);
+    And(a=instruction[2], b=isNegative, out=jmp3);
     
-    //Should we jump!
-    And(a=jltJump, b=instruction[2], out=jmp1);
-    And(a=jeqJump, b=instruction[1], out=jmp2);
-    And(a=jgtJump, b=instruction[0], out=jmp3);
-    Or8Way(in[0]=jmp1, in[1]=jmp2, in[2]=jmp3, out=jump);
+    //Is it a C instruction and do we jump?
+    Or8Way(in[0]=jmp1, in[1]=jmp2, in[2]=jmp3, out=outJump);
+    And(a=instruction[15], b=outJump, out=jump);
 
     //Program counter
     PC(in=aRegisterOut, load=jump, inc=true, reset=reset, out[0..14]=pc );
