@@ -1,5 +1,7 @@
 class SymbolTable
-  @@TABLE = { "SP" => "0",
+
+  currentSymbolAddress = 16
+  table = { "SP" => "0",
               "LCL" => "1",
               "ARG" => "2",
               "THIS" => "3",
@@ -21,3 +23,26 @@ class SymbolTable
               "R14" => "14",
               "R15" => "15"
 }
+
+  currentSymbolAddress = 16
+
+  def addEntry(symbol, address)
+    table.contains(symbol) == false
+      table.store(symbol, currentSymbolAddress)
+      currentSymbolAddress += 1
+    else
+      address
+    end
+
+  def contains(symbol)
+    table.has_key?(symbol)
+  end
+
+  def getAddress(symbol)
+    if table.has_key?(symbol)
+      table[symbol]
+    else
+      puts "That address doesn't exist!"
+    end
+
+end
