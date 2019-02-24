@@ -22,17 +22,18 @@ class SymbolTable
               "R13" => "13",
               "R14" => "14",
               "R15" => "15"
-}
+            }
 
   currentSymbolAddress = 16
 
   def addEntry(symbol, address)
-    table.contains(symbol) == false
+    if table.contains(symbol) == false
       table.store(symbol, currentSymbolAddress)
       currentSymbolAddress += 1
     else
-      address
-    end
+      puts "That symbol already exists!"
+  end
+
 
   def contains(symbol)
     table.has_key?(symbol)

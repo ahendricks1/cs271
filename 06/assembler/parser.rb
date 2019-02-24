@@ -1,14 +1,16 @@
 class Parser
 
-  @@DEST = {"D" => "010",
+  DEST = {"D" => "010",
             "M" => "001",
             "A" => "100",
             "MD" => "011",
             "AM" => "101",
             "AD" => "110",
-            "AMD" => "111"}
+            "AMD" => "111",
+            "null" => "000"
+          }
 
-  @@COMP = {  "0" => "101010",
+  COMP = {  "0" => "101010",
               "1" => "111111",
               "-1" => "111010",
               "D" => "001100",
@@ -35,15 +37,18 @@ class Parser
               "D-M" => "010011",
               "M-D" => "000111",
               "D&M" => "000000",
-              "D|M" => "010101"}
+              "D|M" => "010101"
+            }
 
-  @@JUMP = { "JGT" => "001",
+  JUMP = { "JGT" => "001",
               "JEQ" => "010",
               "JGE" => "011",
               "JLT" => "100",
               "JNE" => "101",
               "JLE" => "110",
-              "JMP" => "111"}
+              "JMP" => "111",
+              "null" => "000"
+            }
 
   #Initialize the input file
   def initialize(input)
@@ -65,7 +70,7 @@ class Parser
       puts new_line
       if commandType(new_line) == "C_CMD"
         command = new_line.strip.split("=")
-        puts "111" + comp(command[1]) + dest(command[0]) + "000"
+        puts "111".to_i + comp(command[1]) + dest(command[0]) + jump(command)
       else
         puts new_line.split("@")[1].to_i.to_s(2).rjust(16, "0")
       end
