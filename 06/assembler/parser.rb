@@ -1,6 +1,6 @@
 class Parser
 
-  DEST = {"D" => "010",
+  @@DEST = {"D" => "010",
             "M" => "001",
             "A" => "100",
             "MD" => "011",
@@ -10,7 +10,7 @@ class Parser
             "null" => "000"
           }
 
-  COMP = {  "0" => "101010",
+  @@COMP = {  "0" => "101010",
               "1" => "111111",
               "-1" => "111010",
               "D" => "001100",
@@ -40,7 +40,7 @@ class Parser
               "D|M" => "010101"
             }
 
-  JUMP = { "JGT" => "001",
+  @@JUMP = { "JGT" => "001",
               "JEQ" => "010",
               "JGE" => "011",
               "JLT" => "100",
@@ -70,7 +70,7 @@ class Parser
       puts new_line
       if commandType(new_line) == "C_CMD"
         command = new_line.strip.split("=")
-        puts "111".to_i + comp(command[1]) + dest(command[0]) + jump(command)
+        puts "111".to_i + comp(command[1]) + dest(command[0]) + jump(command[2])
       else
         puts new_line.split("@")[1].to_i.to_s(2).rjust(16, "0")
       end
@@ -97,7 +97,7 @@ class Parser
 
   def jump(input)
     if input.has_key?(input)
-      @@JUMP
+      @@JUMP[input]
     else
       "000"
     end

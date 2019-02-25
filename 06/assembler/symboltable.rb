@@ -24,14 +24,13 @@ class SymbolTable
               "R15" => "15"
             }
 
-  currentSymbolAddress = 16
-
   def addEntry(symbol, address)
     if table.contains(symbol) == false
       table.store(symbol, currentSymbolAddress)
       currentSymbolAddress += 1
     else
       puts "That symbol already exists!"
+    end
   end
 
 
@@ -45,5 +44,6 @@ class SymbolTable
     else
       puts "That address doesn't exist!"
     end
+  end
 
 end

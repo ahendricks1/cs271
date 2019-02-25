@@ -1,5 +1,4 @@
-load "assembler/parser.rb"
-load "assembler/symboltable.rb"
+load "assembler/assembly.rb"
 
-parser = Parser.new(ARGV[0])
-parser.parse()
+assembler =Assembler.new(ARGV[0])
+assembler.strip()
