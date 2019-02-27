@@ -1,16 +1,15 @@
 class Parser
 
-  @@DEST = {"D" => "010",
+  @dest = {"D" => "010",
             "M" => "001",
             "A" => "100",
             "MD" => "011",
             "AM" => "101",
             "AD" => "110",
             "AMD" => "111",
-            "null" => "000"
-          }
+            "null" => "000"}
 
-  @@COMP = {  "0" => "101010",
+  @comp = {  "0" => "101010",
               "1" => "111111",
               "-1" => "111010",
               "D" => "001100",
@@ -37,47 +36,35 @@ class Parser
               "D-M" => "010011",
               "M-D" => "000111",
               "D&M" => "000000",
-              "D|M" => "010101"
-            }
+              "D|M" => "010101"}
 
-  @@JUMP = { "JGT" => "001",
+  @jump = { "JGT" => "001",
               "JEQ" => "010",
               "JGE" => "011",
               "JLT" => "100",
               "JNE" => "101",
               "JLE" => "110",
-              "JMP" => "111",
-              "null" => "000"
-            }
+              "JMP" => "111"
+              }
 
+  #%015b % number
   #Initialize the input file
   def initialize(input)
     @input_file = File.open(input)
   end
 
-  #Parse file; Create new array, split our input file up and check for / or (
-  def parse()
-    @input_file.each do |line|
-      new_line = ""
-      line.split(//).each do |x|
-        if x == "/" || x == "("
-          break
-        else
-          new_line += x
-        end
-      end
-      next if new_line.strip.empty?
-      puts new_line
-      if commandType(new_line) == "C_CMD"
-        command = new_line.strip.split("=")
-        puts "111".to_i + comp(command[1]) + dest(command[0]) + jump(command[2])
-      else
-        puts new_line.split("@")[1].to_i.to_s(2).rjust(16, "0")
-      end
+  #Create new array with clean lines
+  def clean_up()
+    @lines = @input_file.readlines
+    @lines.each do |line|
+      line.strip!
+    end
+    @lines.delete_if do |line|
+      line.start_with?("/") || line == ""
     end
   end
 
-  #Command type
+  #Choosing A or C instruction
   def commandType(line)
     if line.strip[0] == "@"
       "A_CMD"
@@ -86,20 +73,22 @@ class Parser
     end
   end
 
-  #C-instruction
-  def dest(input)
-    @@DEST[input]
+  #Returns symbol or value
+  def symbol()
+    return
   end
 
-  def comp(input)
-    @@COMP[input]
+  #Returns the destination mnemonic
+  def dest(mnemonic)
+    return @dest[mnemonic]
   end
 
-  def jump(input)
-    if input.has_key?(input)
-      @@JUMP[input]
-    else
-      "000"
-    end
+  #Returns the computation mnemonic
+  def comp(mnemonic)
+    return @comp[mnemonic]
   end
+
+  #Returns the jump mnemonic
+  def jump(mnemonic)
+    return @jump[mnemonic]
 end

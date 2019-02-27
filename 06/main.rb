@@ -1,4 +1,4 @@
-load "assembler/assembly.rb"
+load "assembler/parser.rb"
 
-assembler =Assembler.new(ARGV[0])
-assembler.strip()
+assembler =Parser.new(ARGV[0])
+assembler.clean_up()
