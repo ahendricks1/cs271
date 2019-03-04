@@ -1,6 +1,5 @@
 class SymbolTable
 
-  currentSymbolAddress = 16
   @table = { "SP" => "0",
               "LCL" => "1",
               "ARG" => "2",
@@ -24,12 +23,17 @@ class SymbolTable
               "R15" => "15"
             }
 
-  def addEntry(symbol, address)
-    if table.contains(symbol)
+  def initialize()
+    @currentSymbol = 16
+  end
+
+  def add_entry(symbol)
+    if @table.contains(symbol)
       return @table[symbol]
     else
-      table.store(symbol, currentSymbolAddress)
-      currentSymbolAddress += 1
+      @table[symbol] = @currentSymbol
+      @currentSymbol += 1
+      return @table[symbol]
     end
   end
 
@@ -37,12 +41,8 @@ class SymbolTable
     return table.has_key?(symbol)
   end
 
-  def getAddress(address)
-    if table.has_value?(address)
-      return @table[address]
-    else
-      puts "That address doesn't exist!"
-    end
+  def get_address(symbol)
+    return @table.fetch(symbol)
   end
 
 end

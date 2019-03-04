@@ -1,3 +1,4 @@
+load "assembler/symboltable.rb"
 class Parser
 
   @dest = {"D" => "010",
@@ -47,10 +48,10 @@ class Parser
               "JMP" => "111"
               }
 
-  #%015b % number
   #Initialize the input file
   def initialize(input)
     @input_file = File.open(input)
+    @symbol_table = SymbolTable.new()
   end
 
   #Create new array with clean lines
@@ -61,15 +62,39 @@ class Parser
     end
     @lines.delete_if do |line|
       line.start_with?("/") || line == ""
+      main_computation(line)
     end
   end
 
-  #Choosing A or C instruction
-  def commandType(line)
-    if line.strip[0] == "@"
-      "A_CMD"
+  def main_computation(line)
+    command_type(line)
+  end
+
+  #A or C instruction
+  def command_type(instruction)
+    if instruction.strip[0] == "@"
+      translate_a_instruction(instruction)
     else
-      "C_CMD"
+      translate_c_instruction(instruction)
+    end
+  end
+
+  def translate_a_instruction(instruction)
+    clean_instruction = instruction.strip.split("@")
+    if clean_instruction.split("@")[1].to_i.to_s == clean_instruction.split("@")[1]
+      return ("%015b" % instruction)
+    else
+      @symbol_table.add_entry(instruction)
+    end
+  end
+
+  def translate_c_instruction(instruction)
+    if instruction.include?(";")
+      instruction.split(";")
+      return ("111" + comp(instruction[1]) + dest(instruction[0]) + jump(instruction[2]))
+    else
+      instruction.split("=")
+      return ("111" + comp(instruction[1]) + dest(instruction[0]) + "000")
     end
   end
 
@@ -78,17 +103,16 @@ class Parser
     return
   end
 
-  #Returns the destination mnemonic
+  #Returns the mnemonics value
   def dest(mnemonic)
-    return @dest[mnemonic]
+    return @dest.fetch(mnemonic)
   end
 
-  #Returns the computation mnemonic
   def comp(mnemonic)
-    return @comp[mnemonic]
+     return @comp.fetch(mnemonic)
   end
 
-  #Returns the jump mnemonic
   def jump(mnemonic)
-    return @jump[mnemonic]
+    return @jump.fetch(mnemonic)
+  end
 end
