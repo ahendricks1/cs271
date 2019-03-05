@@ -1,4 +1,5 @@
-load "assembler/parser.rb"
+require_relative 'parser'
+
 class Code
 
 end

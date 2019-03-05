@@ -1,6 +1,6 @@
 class SymbolTable
 
-  @table = { "SP" => "0",
+  TABLE = { "SP" => "0",
               "LCL" => "1",
               "ARG" => "2",
               "THIS" => "3",
@@ -28,21 +28,33 @@ class SymbolTable
   end
 
   def add_entry(symbol)
-    if @table.contains(symbol)
-      return @table[symbol]
+    if TABLE.contains(symbol)
+      return TABLE[symbol]
     else
-      @table[symbol] = @currentSymbol
+      TABLE[symbol] = @currentSymbol
       @currentSymbol += 1
-      return @table[symbol]
+      return TABLE[symbol]
     end
   end
 
+  def add_label(symbol, address)
+    TABLE[symbol] = address
+  end
+
+  def get_table()
+    return TABLE
+  end
+
   def contains(symbol)
-    return table.has_key?(symbol)
+    if TABLE.has_key?(symbol)
+      return true
+    else
+      return false
+    end
   end
 
   def get_address(symbol)
-    return @table.fetch(symbol)
+    return TABLE[symbol]
   end
 
 end
