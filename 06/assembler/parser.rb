@@ -2,6 +2,7 @@ require_relative 'symboltable'
 require_relative 'code'
 
 class Parser
+  attr_accessor :lines
 
   #Initialize the input file
   def initialize(asm_filename)
@@ -21,7 +22,11 @@ class Parser
 
   #Create new array with clean lines
   def clean_up()
-    @lines.delete_if { |line| line.strip.start_with?("//") || line.strip == ""}
+    @lines.each { |line| line.delete!(' ') }
+    @lines.delete_if { |line| line.start_with?("//") }
+    @lines.each { | line| line.chomp! }
+    @lines.delete_if { |line| line.empty? }
+    @lines = @lines.map { |line| line.split("//")[0] }
   end
 
   #Assemble!
@@ -33,8 +38,9 @@ class Parser
 
   #A or C instruction
   def command_type(instruction)
+    instruction = instruction.strip
     if instruction[0] == "@"
-      translate_a_instruction(instruction[1])
+      translate_a_instruction(instruction)
     elsif instruction.strip[0] == "("
       translate_l_instruction(instruction)
     else
@@ -43,11 +49,10 @@ class Parser
   end
 
   def translate_a_instruction(instruction)
-    clean_instruction = instruction.strip.split("@")
-    if instruction.match(/^[\d]/)
-      return ("%016b" % instruction)
+    if instruction.strip.split("@")[1].to_i.to_s == instruction.strip.split("@")[1]
+      return ("%016b" % instruction.strip.split("@")[1])
     else
-      @symbol_table.add_entry(instruction)
+      @symbol_table.add_entry(instruction.strip.split("@")[1])
     end
   end
 

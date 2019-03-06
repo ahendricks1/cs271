@@ -3,4 +3,5 @@ require_relative 'assembler/symboltable'
 
 parser = Parser.new(ARGV[0])
 parser.clean_up
+p parser.lines
 parser.assemble
