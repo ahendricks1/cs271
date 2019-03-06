@@ -4,11 +4,15 @@ require_relative 'code'
 class Parser
 
   #Initialize the input file
-  def initialize(input)
-    @lines = File.readlines(input)
-    @hack_file = File.open("Prog.hack", "w")
+  def initialize(asm_filename)
+    @lines = File.readlines(asm_filename)
+    @hack_file = File.open(hack_filename(asm_filename), "w")
     @symbol_table = SymbolTable.new()
     @new_array = []
+  end
+
+  def hack_filename(asm_filename)
+    "TODO.hack"
   end
 
   #TEST
