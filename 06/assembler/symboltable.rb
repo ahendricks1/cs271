@@ -28,7 +28,7 @@ class SymbolTable
   end
 
   def add_entry(symbol)
-    if TABLE.contains(symbol)
+    if TABLE[symbol]
       return TABLE[symbol]
     else
       TABLE[symbol] = @currentSymbol
@@ -43,14 +43,6 @@ class SymbolTable
 
   def get_table()
     return TABLE
-  end
-
-  def contains(symbol)
-    if TABLE.has_key?(symbol)
-      return true
-    else
-      return false
-    end
   end
 
   def get_address(symbol)

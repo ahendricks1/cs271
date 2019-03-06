@@ -1,5 +1,4 @@
 require_relative 'assembler/parser'
-require_relative 'assembler/code'
 require_relative 'assembler/symboltable'
 
 parser = Parser.new(ARGV[0])
