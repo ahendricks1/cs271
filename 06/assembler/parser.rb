@@ -8,7 +8,6 @@ class Parser
     @lines = File.readlines(asm_filename)
     @hack_file = File.open(hack_filename(asm_filename), "w")
     @symbol_table = SymbolTable.new()
-    @new_array = []
   end
 
   def hack_filename(asm_filename)
@@ -17,27 +16,12 @@ class Parser
 
   #TEST
   def translate_l_instruction(instruction)
-    if command_type(instruction) == translate_l_instruction(instruction)
-      instruction = instruction.gsub(/[()]/, "")
-      @symbol_table.add_label(line, $.)
-    else
-      @new_array.push(line)
-    end
+    exit("Should not be called yet.")
   end
 
   #Create new array with clean lines
   def clean_up()
     @lines.delete_if { |line| line.strip.start_with?("//") || line.strip == ""}
-    @new_array.each do |line|
-      string = ""
-      line.strip.split(//).each do |character|
-        if character == "/"
-          break
-        else
-          string += character
-        end
-      end
-    end
   end
 
   #Assemble!
