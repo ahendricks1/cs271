@@ -1,6 +1,7 @@
 require_relative 'symboltable'
-class Parser
+require_relative 'code'
 
+class Parser
 
   #Initialize the input file
   def initialize(input)
