@@ -27,7 +27,7 @@ class Parser
   #Assemble!
   def assemble()
     @lines.each do |instruction|
-      puts command_type(instruction)
+      @hack_file << command_type(instruction) << "\n"
     end
   end
 
