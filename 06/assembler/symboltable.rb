@@ -29,16 +29,17 @@ class SymbolTable
 
   def add_entry(symbol)
     if TABLE[symbol]
-      return TABLE[symbol]
+      return ("%016b" % TABLE[symbol])
     else
       TABLE[symbol] = @currentSymbol
       @currentSymbol += 1
-      return TABLE[symbol]
+      return ("%016b" % TABLE[symbol])
     end
   end
 
   def add_label(symbol, address)
     TABLE[symbol] = address
+
   end
 
   def get_table()

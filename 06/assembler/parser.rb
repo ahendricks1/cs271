@@ -15,14 +15,15 @@ class Parser
     asm_filename.split(".")[0] + ".hack"
   end
 
-  #Handling labels, not quite right, needs review
+  #TEST
   def handle_label(instruction)
-    rom_location = 0
+    @rom_location = 0
     @lines.each do |instruction|
-      if instruction[0] != "("
-        rom_location += 1
+      if instruction[0] == "("
+        clean_label = instruction.strip.gsub(/[()]/, "")
+        SymbolTable::TABLE[clean_label] = @rom_location
       else
-        instruction
+        @rom_location += 1
       end
     end
   end
