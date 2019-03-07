@@ -12,12 +12,19 @@ class Parser
   end
 
   def hack_filename(asm_filename)
-    "TODO.hack"
+    asm_filename.split(".")[0] + ".hack"
   end
 
-  #TEST
-  def translate_l_instruction(instruction)
-    exit("Should not be called yet.")
+  #Handling labels, not quite right, needs review
+  def handle_label(instruction)
+    rom_location = 0
+    @lines.each do |instruction|
+      if instruction[0] != "("
+        rom_location += 1
+      else
+        instruction
+      end
+    end
   end
 
   #Create new array with clean lines
@@ -42,7 +49,7 @@ class Parser
     if instruction[0] == "@"
       translate_a_instruction(instruction)
     elsif instruction.strip[0] == "("
-      translate_l_instruction(instruction)
+      handle_label(instruction)
     else
       translate_c_instruction(instruction)
     end
