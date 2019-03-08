@@ -40,7 +40,11 @@ class Parser
   #Assemble!
   def assemble()
     @lines.each do |instruction|
-      @hack_file << command_type(instruction) << "\n"
+      if instruction[0] == "("
+        handle_label(instruction)
+      else
+        @hack_file << command_type(instruction) << "\n"
+      end
     end
   end
 
