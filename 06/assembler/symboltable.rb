@@ -45,12 +45,4 @@ class SymbolTable
     return ("%016b" % TABLE[symbol])
   end
 
-  def get_table()
-    return TABLE
-  end
-
-  def get_address(symbol)
-    return TABLE[symbol]
-  end
-
 end

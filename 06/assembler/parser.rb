@@ -21,7 +21,6 @@ class Parser
     @lines.each do |instruction|
       handle_label(instruction)
     end
-    puts SymbolTable::TABLE
   end
 
   #Label handling
@@ -40,7 +39,6 @@ class Parser
     @lines.each do |instruction|
       @hack_file << command_type(instruction) << "\n"
     end
-    puts SymbolTable::TABLE
   end
 
   #Create new array with clean lines
