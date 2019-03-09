@@ -20,7 +20,10 @@ class SymbolTable
               "R12" => "12",
               "R13" => "13",
               "R14" => "14",
-              "R15" => "15"
+              "R15" => "15",
+            "SCREEN" => "16384",
+              "KBD" => "24576"
+
             }
 
   def initialize()
@@ -28,7 +31,7 @@ class SymbolTable
   end
 
   def add_entry(symbol)
-    if TABLE[symbol]
+    if TABLE.has_key?(symbol)
       return ("%016b" % TABLE[symbol])
     else
       TABLE[symbol] = @currentSymbol
@@ -39,7 +42,7 @@ class SymbolTable
 
   def add_label(symbol, address)
     TABLE[symbol] = address
-
+    return ("%016b" % TABLE[symbol])
   end
 
   def get_table()
