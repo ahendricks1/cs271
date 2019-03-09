@@ -24,7 +24,7 @@ class Parser
     puts SymbolTable::TABLE
   end
 
-  #TEST
+  #Label handling
   def handle_label(instruction)
       if instruction[0] == "("
         clean_label = instruction.strip.gsub(/[()]/, "")
